@@ -65,6 +65,10 @@ namespace arm_repairs_project.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "ФИО")]
+        public string Fio { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
