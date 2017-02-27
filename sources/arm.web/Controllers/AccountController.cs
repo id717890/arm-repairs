@@ -76,20 +76,29 @@ namespace arm_repairs_project.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var findUser = UserManager.FindByEmail(model.Email);
-            var result = await SignInManager.PasswordSignInAsync(findUser.UserName, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
+            if (findUser.EmailConfirmed)
             {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
+                var result = await SignInManager.PasswordSignInAsync(findUser.UserName, model.Password, model.RememberMe, shouldLockout: false);
+                switch (result)
+                {
+                    case SignInStatus.Success:
+                        return RedirectToLocal(returnUrl);
+                    case SignInStatus.LockedOut:
+                        return View("Lockout");
+                    case SignInStatus.RequiresVerification:
+                        return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                    case SignInStatus.Failure:
+                    default:
+                        ModelState.AddModelError("", "Invalid login attempt.");
+                        return View(model);
+                }
             }
+            else
+            {
+                ModelState.AddModelError("", "Не подтвержден email.");
+                return View(model);
+            }
+            
         }
 
         //
@@ -159,15 +168,31 @@ namespace arm_repairs_project.Controllers
                     // если создание прошло успешно, то добавляем роль пользователя
                     await UserManager.AddToRoleAsync(user.Id, "user");
 
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    #region  Этот функционал если после регистрации нужно подтвердить email пользователя
+                    //// string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    //// var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    //// await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    // генерируем токен для подтверждения регистрации
+                    var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // создаем ссылку для подтверждения
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code },
+                               protocol: Request.Url.Scheme);
+                    // отправка письма
+                    await UserManager.SendEmailAsync(user.Id, "Подтверждение электронной почты",
+                               "Для завершения регистрации перейдите по ссылке:: <a href=\""
+                                                               + callbackUrl + "\">завершить регистрацию</a>");
+                    return View("DisplayEmail");
+
+
+                    #endregion
+
+                    #region Этот функционал если после регистрации нужно сразу авторизовывать пользователя
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    //// For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                    //// Send an email with this link
+                    //return RedirectToAction("Index", "Home"); 
+                    #endregion
                 }
                 AddErrors(result);
             }
