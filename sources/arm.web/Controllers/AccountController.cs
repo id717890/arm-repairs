@@ -75,7 +75,8 @@ namespace arm_repairs_project.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var findUser = UserManager.FindByEmail(model.Email);
+            var result = await SignInManager.PasswordSignInAsync(findUser.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -155,6 +156,9 @@ namespace arm_repairs_project.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    // если создание прошло успешно, то добавляем роль пользователя
+                    await UserManager.AddToRoleAsync(user.Id, "user");
+
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
