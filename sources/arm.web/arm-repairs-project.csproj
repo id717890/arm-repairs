@@ -173,9 +173,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201702271732263_DataMigration.cs" />
-    <Compile Include="Migrations\201702271732263_DataMigration.Designer.cs">
-      <DependentUpon>201702271732263_DataMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201702280549172_Init.cs" />
+    <Compile Include="Migrations\201702280549172_Init.Designer.cs">
+      <DependentUpon>201702280549172_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -204,6 +204,7 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Properties\PublishProfiles\ArmRepairsLocal.pubxml" />
+    <None Include="Properties\PublishProfiles\ftp-somee.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-3.1.1-vsdoc.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
@@ -265,8 +266,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201702271732263_DataMigration.resx">
-      <DependentUpon>201702271732263_DataMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201702280549172_Init.resx">
+      <DependentUpon>201702280549172_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
