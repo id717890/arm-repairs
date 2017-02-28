@@ -49,7 +49,8 @@ namespace arm_repairs_project.Migrations
                 {
                     Id = "1000", EmailConfirmed = true,
                     Email = "jusupovz@gmail.com",
-                    UserName = "admin"
+                    UserName = "admin",
+                    Fio = "‘»Œ 1"
                 };
                 managerUser.Create(user, "123456");
                 managerUser.AddToRole(user.Id, "chief");
@@ -61,7 +62,8 @@ namespace arm_repairs_project.Migrations
                     Id = "1001",
                     EmailConfirmed = true,
                     Email = "manager@gmail.com",
-                    UserName = "manager"
+                    UserName = "manager",
+                    Fio = "‘»Œ 2"
                 };
                 managerUser.Create(user, "123456");
                 managerUser.AddToRole(user.Id, "manager");
@@ -73,7 +75,8 @@ namespace arm_repairs_project.Migrations
                     Id = "1002",
                     EmailConfirmed = true,
                     Email = "master@gmail.com",
-                    UserName = "master"
+                    UserName = "master",
+                    Fio = "‘»Œ 3"
                 };
                 managerUser.Create(user, "123456");
                 managerUser.AddToRole(user.Id, "master");
@@ -85,7 +88,8 @@ namespace arm_repairs_project.Migrations
                     Id = "1003",
                     EmailConfirmed = true,
                     Email = "user@gmail.com",
-                    UserName = "user"
+                    UserName = "user",
+                    Fio = "‘»Œ 4"
                 };
                 managerUser.Create(user, "123456");
                 managerUser.AddToRole(user.Id, "user");
