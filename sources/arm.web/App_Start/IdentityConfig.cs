@@ -20,8 +20,8 @@ namespace arm_repairs_project
         public Task SendAsync(IdentityMessage message)
         {
             // настройка логина, пароля отправителя
-            var from = "jusupovz@gmail.com";
-            var pass = "muryhldgskzhmigm";
+            var from = "infoarmrepairs@gmail.com";
+            var pass = "Qq@12345";
 
             // адрес и порт smtp-сервера, с которого мы и будем отправлять письмо
             SmtpClient client = new SmtpClient("smtp.gmail.com", 25);
