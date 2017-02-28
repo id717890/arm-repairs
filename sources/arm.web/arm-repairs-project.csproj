@@ -189,14 +189,6 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\bootstrap4\css\bootstrap-grid.css" />
-    <Content Include="Content\bootstrap4\css\bootstrap-grid.min.css" />
-    <Content Include="Content\bootstrap4\css\bootstrap-reboot.css" />
-    <Content Include="Content\bootstrap4\css\bootstrap-reboot.min.css" />
-    <Content Include="Content\bootstrap4\css\bootstrap.css" />
-    <Content Include="Content\bootstrap4\css\bootstrap.min.css" />
-    <Content Include="Content\bootstrap4\js\bootstrap.js" />
-    <Content Include="Content\bootstrap4\js\bootstrap.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
