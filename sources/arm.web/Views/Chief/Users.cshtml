@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNet.Identity
 @using Microsoft.AspNet.Identity.Owin
-@model arm_repairs_project.Models.MangeUserViewModels.MangeUsers
+@model arm_repairs_project.Models.ManageUserViewModels.MangeUsers
 @{
     ViewBag.Title = "Пользователи";
     Layout = "~/Views/Shared/_LayoutChief.cshtml";
@@ -58,7 +58,7 @@
                         }
                     </td>
                     <td>
-                        <a><i class="fa fa-pencil-square-o"></i></a>
+                        <a href="@Url.Action("UserEdit","Chief",new {@id=user.Id})"><i class="fa fa-pencil-square-o"></i></a>
                         <a><i class="fa fa-times" aria-hidden="true"></i></a>
                     </td>
                 </tr>
