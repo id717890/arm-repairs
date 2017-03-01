@@ -81,7 +81,7 @@ namespace arm_repairs_project.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "chief")]
         [ValidateAntiForgeryToken]
         public ActionResult UserEdit(ManageUserViewModels.User model)
         {
@@ -130,6 +130,48 @@ namespace arm_repairs_project.Controllers
 
             TempData["success"] = "Данные успешно сохранены";
             return View(model);
+        }
+
+        [Authorize(Roles = "chief")]
+        public ActionResult UserDelete(string id)
+        {
+            var user = UserManager.FindById(id);
+            var model = new ManageUserViewModels.User();
+            if (user != null)
+            {
+                model.Id = user.Id;
+                model.Fio = user.Fio;
+                model.UserName = user.UserName;
+                model.EmailConfirmed = user.EmailConfirmed;
+                model.Email = user.Email;
+                model.IsChief = UserManager.GetRoles(user.Id).Contains("chief");
+                model.IsManager = UserManager.GetRoles(user.Id).Contains("manager");
+                model.IsMaster = UserManager.GetRoles(user.Id).Contains("master");
+                model.IsUser = UserManager.GetRoles(user.Id).Contains("user");
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "chief")]
+        [ValidateAntiForgeryToken]
+        public ActionResult UserDelete(ManageUserViewModels.User model)
+        {
+            //Проверяем модель на валидность
+            if ((model.Id==null) || (model.Id == String.Empty))
+            {
+                ModelState.AddModelError("", "Идентификатор пользователя не определен.");
+                return View(model);
+            }
+            var user = UserManager.FindById(model.Id);
+            //Если пользователь не найден то возвращаем ошибку
+            if (user == null)
+            {
+                ModelState.AddModelError("", "Пользователь не найден.");
+                return View(model);
+            }
+            UserManager.Delete(user);
+            return RedirectToAction("Users","Chief");
         }
 
     }

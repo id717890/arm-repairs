@@ -58,8 +58,9 @@
                         }
                     </td>
                     <td>
-                        <a href="@Url.Action("UserEdit","Chief",new {@id=user.Id})" title="Редактировать"><i class="fa fa-pencil-square-o"></i></a>
-                        <a><i class="fa fa-times" aria-hidden="true"></i></a>
+                        <a href="@Url.Action("UserEdit","Chief",new {@id=user.Id})" title="Редактировать"><i class="fa fa-pencil-square-o  fa-lg"></i></a>
+                        <a title="Сменить пароль"><i class="fa fa-user-secret fa-lg" aria-hidden="true"></i></a>
+                        <a href="@Url.Action("UserDelete","Chief",new {@id=user.Id})" title="Удалить пользователя"><i class="fa fa-times  fa-lg" aria-hidden="true"></i></a>
                     </td>
                 </tr>
                 i++;

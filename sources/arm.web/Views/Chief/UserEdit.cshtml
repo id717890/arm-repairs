@@ -1,14 +1,13 @@
 ﻿@model arm_repairs_project.Models.ManageUserViewModels.User
 
 @{
-    ViewBag.Title = "UserEdit";
+    ViewBag.Title = "Редактирование пользователя";
     Layout = "~/Views/Shared/_LayoutChief.cshtml";
 }
 
 <h2>Редактирование пользователя</h2>
 <div class="row">
     <div class="col-xs-12">
-
         @using (Html.BeginForm("UserEdit", "Chief", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
             @Html.AntiForgeryToken()
@@ -80,7 +79,8 @@
             </div>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Сохранить" class="btn btn-success" />
+                    <input type="submit" value="Сохранить" class="btn btn-success"/>
+                    @Html.ActionLink("Назад","Users","Chief",null, new {@class="btn btn-default"})
                 </div>
             </div>
         }

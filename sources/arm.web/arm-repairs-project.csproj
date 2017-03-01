@@ -271,6 +271,7 @@
     <Content Include="Views\Chief\Index.cshtml" />
     <Content Include="Views\Chief\Users.cshtml" />
     <Content Include="Views\Chief\UserEdit.cshtml" />
+    <Content Include="Views\Chief\UserDelete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
