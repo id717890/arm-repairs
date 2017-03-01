@@ -95,6 +95,16 @@ namespace arm_repairs_project.Migrations
                 managerUser.AddToRole(user.Id, "user");
             }
 
+            context.DemandStatuses.AddOrUpdate(
+                x=>x.Id,
+                new Models.Data.DemandStatus { Id = 1, Caption = "Ожидание подтверждения менеджером"},
+                new Models.Data.DemandStatus { Id = 2, Caption = "Ожидание мастера"},
+                new Models.Data.DemandStatus { Id = 3, Caption = "Заказ запчасти"},
+                new Models.Data.DemandStatus { Id = 4, Caption = "В работе"},
+                new Models.Data.DemandStatus { Id = 5, Caption = "Выполнено"},
+                new Models.Data.DemandStatus { Id = 6, Caption = "Отменен"}
+                );
+
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
