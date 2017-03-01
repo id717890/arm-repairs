@@ -19,11 +19,11 @@
                 .WithMany()
                 .Map(x => x.MapKey("user"))
                 .WillCascadeOnDelete(false);
-            HasRequired(x => x.Master)
+            HasOptional(x => x.Master)
                 .WithMany()
                 .Map(x => x.MapKey("master"))
                 .WillCascadeOnDelete(false);
-            HasRequired(x => x.Manager)
+            HasOptional(x => x.Manager)
                 .WithMany()
                 .Map(x => x.MapKey("manager"))
                 .WillCascadeOnDelete(false);

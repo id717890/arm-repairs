@@ -47,7 +47,8 @@ namespace arm_repairs_project.Migrations
             {
                 var user = new ApplicationUser
                 {
-                    Id = "1000", EmailConfirmed = true,
+                    Id = "1000",
+                    EmailConfirmed = true,
                     Email = "jusupovz@gmail.com",
                     UserName = "admin",
                     Fio = "ФИО 1"
@@ -96,21 +97,79 @@ namespace arm_repairs_project.Migrations
             }
 
             context.DemandStatuses.AddOrUpdate(
-                x=>x.Id,
-                new Models.Data.DemandStatus { Id = 1, Caption = "Ожидание подтверждения менеджером"},
-                new Models.Data.DemandStatus { Id = 2, Caption = "Ожидание мастера"},
-                new Models.Data.DemandStatus { Id = 3, Caption = "Заказ запчасти"},
-                new Models.Data.DemandStatus { Id = 4, Caption = "В работе"},
-                new Models.Data.DemandStatus { Id = 5, Caption = "Выполнено"},
-                new Models.Data.DemandStatus { Id = 6, Caption = "Отменен"}
+                x => x.Id,
+                new Models.Data.DemandStatus { Id = 1, Caption = "Ожидание подтверждения менеджером" },
+                new Models.Data.DemandStatus { Id = 2, Caption = "Ожидание мастера" },
+                new Models.Data.DemandStatus { Id = 3, Caption = "Заказ запчасти" },
+                new Models.Data.DemandStatus { Id = 4, Caption = "В работе" },
+                new Models.Data.DemandStatus { Id = 5, Caption = "Выполнено" },
+                new Models.Data.DemandStatus { Id = 6, Caption = "Отменен" }
                 );
 
             context.Priorities.AddOrUpdate(
-                x=>x.Id,
-                new Models.Data.Priority { Id = 1, Caption = "Высокий"},
-                new Models.Data.Priority { Id = 2, Caption = "Средний"},
-                new Models.Data.Priority { Id = 3, Caption = "Низкий"}
+                x => x.Id,
+                new Models.Data.Priority { Id = 1, Caption = "Высокий" },
+                new Models.Data.Priority { Id = 2, Caption = "Средний" },
+                new Models.Data.Priority { Id = 3, Caption = "Низкий" }
                 );
+            context.SaveChanges();
+
+            context.Demands.AddOrUpdate(
+                x => x.Id,
+                new Models.Data.Demand
+                {
+                    Id = 1,
+                    Date = DateTime.Now,
+                    DescriptionIssue = "Описание проблемы 1",
+                    Phone = "0500",
+                    User = context.Users.SingleOrDefault(x => x.Id == "1003"),
+                    Manager = null,
+                    Master = null,
+                    DecisionHours = 3,
+                    DecisionDescription = "Описание",
+                    Equipment = "Оборудование",
+                    Priority = context.Priorities.SingleOrDefault(x => x.Id == 1),
+                    Status = context.DemandStatuses.SingleOrDefault(x => x.Id == 1)
+                }
+                );
+            context.Demands.AddOrUpdate(
+                x => x.Id,
+                new Models.Data.Demand
+                {
+                    Id = 1,
+                    Date = DateTime.Now,
+                    DescriptionIssue = "Описание проблемы 2",
+                    Phone = "0500",
+                    User = context.Users.SingleOrDefault(x => x.Id == "1003"),
+                    Manager = null,
+                    Master = null,
+                    DecisionHours = 3,
+                    DecisionDescription = "Описание 2",
+                    Equipment = "Оборудование 2",
+                    Priority = context.Priorities.SingleOrDefault(x => x.Id == 1),
+                    Status = context.DemandStatuses.SingleOrDefault(x => x.Id == 2)
+                }
+                );
+            context.Demands.AddOrUpdate(
+                x => x.Id,
+                new Models.Data.Demand
+                {
+                    Id = 1,
+                    Date = DateTime.Now,
+                    DescriptionIssue = "Описание проблемы 3",
+                    Phone = "0500",
+                    User = context.Users.SingleOrDefault(x => x.Id == "1003"),
+                    Manager = null,
+                    Master = null,
+                    DecisionHours = 3,
+                    DecisionDescription = "Описание 3",
+                    Equipment = "Оборудование 3",
+                    Priority = context.Priorities.SingleOrDefault(x => x.Id == 1),
+                    Status = context.DemandStatuses.SingleOrDefault(x => x.Id == 3)
+                }
+                );
+
+
 
             //  This method will be called after migrating to the latest version.
 

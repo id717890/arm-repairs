@@ -13,7 +13,7 @@ namespace arm_repairs_project.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201703011350148_Demand"; }
+            get { return "201703011614033_Demand"; }
         }
         
         string IMigrationMetadata.Source
