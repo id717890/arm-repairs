@@ -172,6 +172,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -199,6 +200,7 @@
     <Compile Include="Models\Data\Demand.cs" />
     <Compile Include="Models\Data\DemandStatus.cs" />
     <Compile Include="Models\Data\Priority.cs" />
+    <Compile Include="Models\DemandViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ManageUserViewModels.cs" />
@@ -296,6 +298,9 @@
     <Content Include="Views\Shared\_LayoutManager.cshtml" />
     <Content Include="Views\Manager\Users.cshtml" />
     <Content Include="Views\Manager\UserEdit.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutUser.cshtml" />
+    <Content Include="Views\User\Demands.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -96,42 +96,47 @@ namespace arm_repairs_project.Migrations
                 managerUser.AddToRole(user.Id, "user");
             }
 
+            #region Инициализируем статусы заявок
             context.DemandStatuses.AddOrUpdate(
-                x => x.Id,
-                new Models.Data.DemandStatus { Id = 1, Caption = "Ожидание подтверждения менеджером" },
-                new Models.Data.DemandStatus { Id = 2, Caption = "Ожидание мастера" },
-                new Models.Data.DemandStatus { Id = 3, Caption = "Заказ запчасти" },
-                new Models.Data.DemandStatus { Id = 4, Caption = "В работе" },
-                new Models.Data.DemandStatus { Id = 5, Caption = "Выполнено" },
-                new Models.Data.DemandStatus { Id = 6, Caption = "Отменен" }
-                );
+                    x => x.Id,
+                    new Models.Data.DemandStatus { Id = 1, Caption = "Ожидание подтверждения менеджером" },
+                    new Models.Data.DemandStatus { Id = 2, Caption = "Ожидание мастера" },
+                    new Models.Data.DemandStatus { Id = 3, Caption = "Заказ запчасти" },
+                    new Models.Data.DemandStatus { Id = 4, Caption = "В работе" },
+                    new Models.Data.DemandStatus { Id = 5, Caption = "Выполнено" },
+                    new Models.Data.DemandStatus { Id = 6, Caption = "Отменен" }
+                    ); 
+            #endregion
 
+            #region Инициализируем приоритеты
             context.Priorities.AddOrUpdate(
-                x => x.Id,
-                new Models.Data.Priority { Id = 1, Caption = "Высокий" },
-                new Models.Data.Priority { Id = 2, Caption = "Средний" },
-                new Models.Data.Priority { Id = 3, Caption = "Низкий" }
-                );
+                    x => x.Id,
+                    new Models.Data.Priority { Id = 1, Caption = "Высокий" },
+                    new Models.Data.Priority { Id = 2, Caption = "Средний" },
+                    new Models.Data.Priority { Id = 3, Caption = "Низкий" }
+                    ); 
+            #endregion
             context.SaveChanges();
 
+            #region Инициализируем заявки
             context.Demands.AddOrUpdate(
-                x => x.Id,
-                new Models.Data.Demand
-                {
-                    Id = 1,
-                    Date = DateTime.Now,
-                    DescriptionIssue = "Описание проблемы 1",
-                    Phone = "0500",
-                    User = context.Users.SingleOrDefault(x => x.Id == "1003"),
-                    Manager = null,
-                    Master = null,
-                    DecisionHours = 3,
-                    DecisionDescription = "Описание",
-                    Equipment = "Оборудование",
-                    Priority = context.Priorities.SingleOrDefault(x => x.Id == 1),
-                    Status = context.DemandStatuses.SingleOrDefault(x => x.Id == 1)
-                }
-                );
+                    x => x.Id,
+                    new Models.Data.Demand
+                    {
+                        Id = 1,
+                        Date = DateTime.Now,
+                        DescriptionIssue = "Описание проблемы 1",
+                        Phone = "0500",
+                        User = context.Users.SingleOrDefault(x => x.Id == "1003"),
+                        Manager = null,
+                        Master = null,
+                        DecisionHours = 3,
+                        DecisionDescription = "Описание",
+                        Equipment = "Оборудование",
+                        Priority = context.Priorities.SingleOrDefault(x => x.Id == 1),
+                        Status = context.DemandStatuses.SingleOrDefault(x => x.Id == 1)
+                    }
+                    );
             context.Demands.AddOrUpdate(
                 x => x.Id,
                 new Models.Data.Demand
@@ -167,7 +172,8 @@ namespace arm_repairs_project.Migrations
                     Priority = context.Priorities.SingleOrDefault(x => x.Id == 1),
                     Status = context.DemandStatuses.SingleOrDefault(x => x.Id == 3)
                 }
-                );
+                ); 
+            #endregion
 
 
 
