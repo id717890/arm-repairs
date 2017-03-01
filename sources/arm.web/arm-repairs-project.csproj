@@ -194,6 +194,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Assists.cs" />
     <Compile Include="Models\Data.Mapping\DemandStatusMap.cs" />
     <Compile Include="Models\Data.Mapping\DemandMap.cs" />
     <Compile Include="Models\Data.Mapping\PriorityMap.cs" />
@@ -301,6 +302,8 @@
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutUser.cshtml" />
     <Content Include="Views\User\Demands.cshtml" />
+    <Content Include="Views\Chief\Demands.cshtml" />
+    <Content Include="Views\Chief\CreateDemand.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

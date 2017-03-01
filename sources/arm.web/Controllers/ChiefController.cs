@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -8,6 +9,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Web.UI.WebControls;
 using arm_repairs_project.Models;
+using arm_repairs_project.Models.Data;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -191,5 +193,50 @@ namespace arm_repairs_project.Controllers
             }
             return View(model);
         }
+
+        [Authorize(Roles = "chief")]
+        public ActionResult Demands()
+        {
+            List<Demand> demands;
+            using (ApplicationDbContext db = new ApplicationDbContext())
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                demands = db.Demands.Include(x => x.Master).Include(x => x.Priority).Include(x => x.Status).ToList();
+            }
+            var model = new Demands
+            {
+                DemandsList = demands
+            };
+            return View(model);
+        }
+
+        [Authorize(Roles = "chief")]
+        public ActionResult CreateDemand()
+        {
+            List<ApplicationUser> users;
+            List<Priority> priorities;
+            List<DemandStatus> statuses;
+            using (ApplicationDbContext db = new ApplicationDbContext())
+            {
+                users = db.Users.ToList();
+                priorities = db.Priorities.ToList();
+                statuses = db.DemandStatuses.ToList();
+            }
+            ViewBag.UserList = users;
+            ViewBag.PriorityList = priorities;
+            ViewBag.StatusList = statuses;
+            ViewBag.MasterList = Assists.GetUsersInRole("master");
+            ViewBag.ManagerList = Assists.GetUsersInRole("manager");
+            return View(new DemandModel());
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "chief")]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateDemand(DemandModel model)
+        {
+            return null;
+        }
+
     }
 }

@@ -1,0 +1,64 @@
+﻿@model arm_repairs_project.Models.Demands
+@{
+    ViewBag.Title = "Заявки на ремонт";
+    Layout = "~/Views/Shared/_LayoutChief.cshtml";
+}
+
+<h2>Заявки на ремонт</h2>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="form-group">
+            <a href="@Url.Action("CreateDemand","Chief")" class="btn btn-lg btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Новая заявка</a>
+        </div>
+        <div class="panel panel-default">
+            <table class="table table-condensed table-hover table-responsive table-striped">
+                <colgroup>
+                    <col/>
+                    <col/>
+                    <col/>
+                    <col/>
+                    <col/>
+                    <col/>
+                    <col class="col-width-75"/>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Дата</th>
+                    <th>Исполнитель</th>
+                    <th>Приоритет</th>
+                    <th>Статус</th>
+                    <th>Описание</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                @if (Model.DemandsList.Any())
+                {
+                    foreach (var demand in Model.DemandsList)
+                    {
+                        <tr>
+                            <td>@demand.Id</td>
+                            <td title="@demand.Date.ToString("G")">@demand.Date.ToString("d")</td>
+                            <td>
+                                @if (demand.Master != null)
+                                {
+                                    @demand.Master.Fio
+                                }
+                                else
+                                {
+                                    <span>Не указан</span>
+                                }
+                            </td>
+                            <td>@demand.Priority.Caption</td>
+                            <td>@demand.Status.Caption</td>
+                            <td>@demand.DescriptionIssue</td>
+                            <td></td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
