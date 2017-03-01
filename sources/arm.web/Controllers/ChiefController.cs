@@ -85,8 +85,51 @@ namespace arm_repairs_project.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult UserEdit(ManageUserViewModels.User model)
         {
+            //Проверяем модель на валидность
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var user = UserManager.FindById(model.Id);
+            //Если пользователь не найден то возвращаем ошибку
+            if (user == null)
+            {
+                ModelState.AddModelError("", "Пользователь не найден.");
+                return View(model);
+            }
 
-            return null;
+            //Ищем пользователя с таким же email
+            var email = UserManager.FindByEmail(model.Email);
+            //Если найден пользователь с таким же email и это другой пользователь то возварщаем ошибку
+            if ((email != null) && (email.Id != user.Id))
+            {
+                ModelState.AddModelError("", "Пользователь с таким Email уже существует.");
+                return View(model);
+            }
+
+            //Ищем пользователя с таким же UserName
+            var userName = UserManager.FindByName(model.UserName);
+            //Если найден пользователь с таким же user name и это другой пользователь то возварщаем ошибку
+            if ((userName != null) && (userName.Id != user.Id))
+            {
+                ModelState.AddModelError("", "Пользователь с таким UserName уже существует.");
+                return View(model);
+            }
+
+            user.Fio = model.Fio;
+            user.UserName = model.UserName;
+            user.Email = model.Email;
+            user.EmailConfirmed = model.EmailConfirmed;
+            UserManager.Update(user);
+
+            //Присваиваем или удалем роли у пользователя
+            if (model.IsChief) UserManager.AddToRole(model.Id, "chief"); else UserManager.RemoveFromRole(model.Id, "chief");
+            if (model.IsManager) UserManager.AddToRole(model.Id, "manager"); else UserManager.RemoveFromRole(model.Id, "manager");
+            if (model.IsMaster) UserManager.AddToRole(model.Id, "master"); else UserManager.RemoveFromRole(model.Id, "master");
+            if (model.IsUser) UserManager.AddToRole(model.Id, "user"); else UserManager.RemoveFromRole(model.Id, "user");
+
+            TempData["success"] = "Данные успешно сохранены";
+            return View(model);
         }
 
     }

@@ -41,7 +41,7 @@
                             var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
                             if (userManager.IsInRole(user.Id, "chief"))
                             {
-                                <span>Руководитель &nbsp;</span>
+                                <span>Руководитель</span>
                             }
                             if (userManager.IsInRole(user.Id, "manager"))
                             {
@@ -58,7 +58,7 @@
                         }
                     </td>
                     <td>
-                        <a href="@Url.Action("UserEdit","Chief",new {@id=user.Id})"><i class="fa fa-pencil-square-o"></i></a>
+                        <a href="@Url.Action("UserEdit","Chief",new {@id=user.Id})" title="Редактировать"><i class="fa fa-pencil-square-o"></i></a>
                         <a><i class="fa fa-times" aria-hidden="true"></i></a>
                     </td>
                 </tr>
