@@ -25,6 +25,7 @@ namespace arm_repairs_project.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<DemandStatus> DemandStatuses { get; set; } 
+        public DbSet<Priority> Priorities { get; set; } 
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -41,6 +42,7 @@ namespace arm_repairs_project.Models
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Configurations.Add(new DemandStatusMap());
+            modelBuilder.Configurations.Add(new PriorityMap());
         }
     }
 }

@@ -183,9 +183,14 @@
     <Compile Include="Migrations\201703011139447_DemandStatus.Designer.cs">
       <DependentUpon>201703011139447_DemandStatus.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703011318540_Priority.cs" />
+    <Compile Include="Migrations\201703011318540_Priority.Designer.cs">
+      <DependentUpon>201703011318540_Priority.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Data.Mapping\DemandStatusMap.cs" />
+    <Compile Include="Models\Data.Mapping\PriorityMap.cs" />
     <Compile Include="Models\Data\Demand.cs" />
     <Compile Include="Models\Data\DemandStatus.cs" />
     <Compile Include="Models\Data\Priority.cs" />
@@ -300,6 +305,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703011139447_DemandStatus.resx">
       <DependentUpon>201703011139447_DemandStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703011318540_Priority.resx">
+      <DependentUpon>201703011318540_Priority.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

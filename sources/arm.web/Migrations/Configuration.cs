@@ -105,6 +105,13 @@ namespace arm_repairs_project.Migrations
                 new Models.Data.DemandStatus { Id = 6, Caption = "Отменен"}
                 );
 
+            context.Priorities.AddOrUpdate(
+                x=>x.Id,
+                new Models.Data.Priority { Id = 1, Caption = "Высокий"},
+                new Models.Data.Priority { Id = 2, Caption = "Средний"},
+                new Models.Data.Priority { Id = 3, Caption = "Низкий"}
+                );
+
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
