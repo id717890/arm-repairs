@@ -174,5 +174,22 @@ namespace arm_repairs_project.Controllers
             return RedirectToAction("Users","Chief");
         }
 
+        [Authorize(Roles = "chief")]
+        public ActionResult ChangePassword(string id)
+        {
+            var user = UserManager.FindById(id);
+            var model = new ManageUserViewModels.ChangePasswordViewModel();
+            if (user != null)
+            {
+                model.Id = user.Id;
+                model.Fio = user.Fio;
+                model.UserName = user.UserName;
+
+                string code = UserManager.GeneratePasswordResetToken(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                UserManager.SendEmail(user.Id, "Сброс пароля", "Для сброса пароля перейдите по ссылке <a href=\"" + callbackUrl + "\">here</a>");
+            }
+            return View(model);
+        }
     }
 }

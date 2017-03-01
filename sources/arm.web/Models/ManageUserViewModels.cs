@@ -13,7 +13,7 @@ namespace arm_repairs_project.Models
         /// </summary>
         public class MangeUsers
         {
-            public IEnumerable<ApplicationUser> Users { get; set; } 
+            public IEnumerable<ApplicationUser> Users { get; set; }
         }
 
         public class User
@@ -47,6 +47,24 @@ namespace arm_repairs_project.Models
 
             [Display(Name = "Пользователь")]
             public bool IsUser { get; set; }
+        }
+
+        public class ChangePasswordViewModel
+        {
+            public string Id { get; set; }
+            public string Fio { get; set; }
+            public string UserName { get; set; }
+
+            [Required]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 1)]
+            [DataType(DataType.Password)]
+            [Display(Name = "Новый пароль")]
+            public string NewPassword { get; set; }
+
+            [DataType(DataType.Password)]
+            [Display(Name = "Подтверждение нового пароля")]
+            [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+            public string ConfirmPassword { get; set; }
         }
     }
 }

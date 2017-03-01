@@ -277,7 +277,8 @@ namespace arm_repairs_project.Controllers
             {
                 return View(model);
             }
-            var user = await UserManager.FindByNameAsync(model.Email);
+            var findUser = await UserManager.FindByEmailAsync(model.Email);
+            var user = await UserManager.FindByNameAsync(findUser.UserName);
             if (user == null)
             {
                 // Don't reveal that the user does not exist
