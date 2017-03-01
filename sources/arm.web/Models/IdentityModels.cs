@@ -26,6 +26,7 @@ namespace arm_repairs_project.Models
     {
         public DbSet<DemandStatus> DemandStatuses { get; set; } 
         public DbSet<Priority> Priorities { get; set; } 
+        public DbSet<Demand> Demands { get; set; } 
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -43,6 +44,7 @@ namespace arm_repairs_project.Models
 
             modelBuilder.Configurations.Add(new DemandStatusMap());
             modelBuilder.Configurations.Add(new PriorityMap());
+            modelBuilder.Configurations.Add(new DemandMap());
         }
     }
 }
