@@ -63,8 +63,8 @@
                             <td>@demand.Status.Caption</td>
                             <td>@demand.DescriptionIssue</td>
                             <td>
-                                <a href="@Url.Action("UserEdit","Chief",new {@id=demand.Id})" title="Редактировать"><i class="fa fa-pencil-square-o  fa-lg"></i></a>
-                                <a href="@Url.Action("UserDelete","Chief",new {@id=demand.Id})" title="Удалить пользователя"><i class="fa fa-times  fa-lg" aria-hidden="true"></i></a>
+                                <a href="@Url.Action("DemandEdit","Chief",new {@id=demand.Id})" title="Редактировать"><i class="fa fa-pencil-square-o  fa-lg"></i></a>
+                                <a href="@Url.Action("UserDelete","Chief",new {@id=demand.Id})" title="Удалить заявку"><i class="fa fa-times  fa-lg" aria-hidden="true"></i></a>
                             </td>
                         </tr>
                     }

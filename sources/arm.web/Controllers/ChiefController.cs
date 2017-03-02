@@ -21,9 +21,9 @@ namespace arm_repairs_project.Controllers
     {
         private ApplicationUserManager _userManager; //класс для управления пользователями
 
-        public ChiefController() {}
+        public ChiefController() { }
 
-        public ChiefController(ApplicationUserManager userManager )
+        public ChiefController(ApplicationUserManager userManager)
         {
             UserManager = userManager; //делаем инъекцию через конструктор
         }
@@ -65,7 +65,7 @@ namespace arm_repairs_project.Controllers
         public ActionResult UserEdit(string id)
         {
             var user = UserManager.FindById(id);
-            var model=new ManageUserViewModels.User();
+            var model = new ManageUserViewModels.User();
             if (user != null)
             {
                 model.Id = user.Id;
@@ -75,8 +75,8 @@ namespace arm_repairs_project.Controllers
                 model.Email = user.Email;
                 model.IsChief = UserManager.GetRoles(user.Id).Contains("chief");
                 model.IsManager = UserManager.GetRoles(user.Id).Contains("manager");
-                model.IsMaster= UserManager.GetRoles(user.Id).Contains("master");
-                model.IsUser= UserManager.GetRoles(user.Id).Contains("user");
+                model.IsMaster = UserManager.GetRoles(user.Id).Contains("master");
+                model.IsUser = UserManager.GetRoles(user.Id).Contains("user");
             }
 
             return View(model);
@@ -160,7 +160,7 @@ namespace arm_repairs_project.Controllers
         public ActionResult UserDelete(ManageUserViewModels.User model)
         {
             //Проверяем модель на валидность
-            if ((model.Id==null) || (model.Id == String.Empty))
+            if ((model.Id == null) || (model.Id == String.Empty))
             {
                 ModelState.AddModelError("", "Идентификатор пользователя не определен.");
                 return View(model);
@@ -173,7 +173,7 @@ namespace arm_repairs_project.Controllers
                 return View(model);
             }
             UserManager.Delete(user);
-            return RedirectToAction("Users","Chief");
+            return RedirectToAction("Users", "Chief");
         }
 
         [Authorize(Roles = "chief")]
@@ -200,7 +200,7 @@ namespace arm_repairs_project.Controllers
             List<Demand> demands;
             using (ApplicationDbContext db = new ApplicationDbContext())
             {
-                demands = db.Demands.Include(x => x.Master).Include(x => x.Priority).Include(x => x.Status).Include(x=>x.User).ToList();
+                demands = db.Demands.Include(x => x.Master).Include(x => x.Priority).Include(x => x.Status).Include(x => x.User).ToList();
             }
             var model = new Demands
             {
@@ -247,9 +247,69 @@ namespace arm_repairs_project.Controllers
                 db.SaveChanges();
                 id = newDemand.Id;
             }
-            TempData["success"] = "Новая завка создана под номером "+id;
-            return RedirectToAction("Demands","Chief");
+            TempData["success"] = "Новая завка создана под номером " + id;
+            return RedirectToAction("Demands", "Chief");
         }
 
+        [Authorize(Roles = "chief")]
+        public ActionResult DemandEdit(int id)
+        {
+            Demand demand;
+            using (ApplicationDbContext db = new ApplicationDbContext())
+            {
+                demand = db.Demands.Include(x => x.Master).Include(x => x.Priority).Include(x => x.Status).Include(x => x.User).Include(x => x.Manager).SingleOrDefault(x => x.Id == id);
+            }
+            var model = new DemandModel();
+            if (demand != null)
+            {
+                model.Id = demand.Id;
+                model.Priority = demand.Priority.Id;
+                model.User = demand.User.Id;
+                model.Manager = demand.Manager?.Id;
+                model.Master = demand.Master?.Id;
+                model.DescriptionIssue = demand.DescriptionIssue;
+                model.Status = demand.Status.Id;
+                model.Phone = demand.Phone;
+                model.DecisionDescription = demand.DecisionDescription;
+                model.DecisionHours = demand.DecisionHours;
+                model.Equipment = demand.Equipment;
+                model.Date = demand.Date;
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "chief")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DemandEdit(DemandModel model)
+        {
+            //Проверяем модель на валидность
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            using (ApplicationDbContext db = new ApplicationDbContext())
+            {
+                var demand = db.Demands.SingleOrDefault(x => x.Id == model.Id);
+                if (demand == null)
+                {
+                    ModelState.AddModelError("", "Заявка не найдена");
+                    return View(model);
+                }
+                demand.DecisionDescription = model.DecisionDescription;
+                demand.DecisionHours = model.DecisionHours;
+                demand.Equipment = model.Equipment;
+                demand.Manager = model.Manager != null ? db.Users.SingleOrDefault(x => x.Id == model.Manager) : null;
+                demand.Master = model.Master != null ? db.Users.SingleOrDefault(x => x.Id == model.Master) : null;
+                demand.Priority = db.Priorities.SingleOrDefault(x => x.Id == model.Priority);
+                demand.Status = db.DemandStatuses.SingleOrDefault(x => x.Id == model.Status);
+                demand.User = db.Users.SingleOrDefault(x => x.Id == model.User);
+                demand.DescriptionIssue = model.DescriptionIssue;
+                demand.Phone = model.Phone;
+                db.SaveChanges();
+                TempData["success"] = "Завка №" + demand.Id + " успешно изменена";
+                return RedirectToAction("Demands", "Chief");
+            }
+        }
     }
 }

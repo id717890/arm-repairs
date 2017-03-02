@@ -304,6 +304,7 @@
     <Content Include="Views\User\Demands.cshtml" />
     <Content Include="Views\Chief\Demands.cshtml" />
     <Content Include="Views\Chief\DemandCreate.cshtml" />
+    <Content Include="Views\Chief\DemandEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -16,6 +16,7 @@ namespace arm_repairs_project.Models
     public class DemandModel
     {
         public int Id { get; set; }
+        public DateTime Date { get; set; }
 
         [Required]
         [Display(Name = "Описание проблемы")]
@@ -26,7 +27,7 @@ namespace arm_repairs_project.Models
         public string Phone { get; set; }
 
         [Display(Name = "Затраченное время")]
-        public int DecisionHours{ get; set; }
+        public decimal DecisionHours{ get; set; }
 
         [Display(Name = "Описание решения")]
         public string DecisionDescription { get; set; }
