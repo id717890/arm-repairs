@@ -1,6 +1,8 @@
 ﻿using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using arm_repairs_project.Models.Data;
+using arm_repairs_project.Models.Data.Mapping;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -22,6 +24,8 @@ namespace arm_repairs_project.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<DemandStatus> DemandStatuses { get; set; } 
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
@@ -30,6 +34,13 @@ namespace arm_repairs_project.Models
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Configurations.Add(new DemandStatusMap());
         }
     }
 }

@@ -49,7 +49,8 @@ namespace arm_repairs_project.Migrations
                 {
                     Id = "1000", EmailConfirmed = true,
                     Email = "jusupovz@gmail.com",
-                    UserName = "admin"
+                    UserName = "admin",
+                    Fio = "ФИО 1"
                 };
                 managerUser.Create(user, "123456");
                 managerUser.AddToRole(user.Id, "chief");
@@ -61,7 +62,8 @@ namespace arm_repairs_project.Migrations
                     Id = "1001",
                     EmailConfirmed = true,
                     Email = "manager@gmail.com",
-                    UserName = "manager"
+                    UserName = "manager",
+                    Fio = "ФИО 2"
                 };
                 managerUser.Create(user, "123456");
                 managerUser.AddToRole(user.Id, "manager");
@@ -73,7 +75,8 @@ namespace arm_repairs_project.Migrations
                     Id = "1002",
                     EmailConfirmed = true,
                     Email = "master@gmail.com",
-                    UserName = "master"
+                    UserName = "master",
+                    Fio = "ФИО 3"
                 };
                 managerUser.Create(user, "123456");
                 managerUser.AddToRole(user.Id, "master");
@@ -85,11 +88,22 @@ namespace arm_repairs_project.Migrations
                     Id = "1003",
                     EmailConfirmed = true,
                     Email = "user@gmail.com",
-                    UserName = "user"
+                    UserName = "user",
+                    Fio = "ФИО 4"
                 };
                 managerUser.Create(user, "123456");
                 managerUser.AddToRole(user.Id, "user");
             }
+
+            context.DemandStatuses.AddOrUpdate(
+                x=>x.Id,
+                new Models.Data.DemandStatus { Id = 1, Caption = "Ожидание подтверждения менеджером"},
+                new Models.Data.DemandStatus { Id = 2, Caption = "Ожидание мастера"},
+                new Models.Data.DemandStatus { Id = 3, Caption = "Заказ запчасти"},
+                new Models.Data.DemandStatus { Id = 4, Caption = "В работе"},
+                new Models.Data.DemandStatus { Id = 5, Caption = "Выполнено"},
+                new Models.Data.DemandStatus { Id = 6, Caption = "Отменен"}
+                );
 
             //  This method will be called after migrating to the latest version.
 
