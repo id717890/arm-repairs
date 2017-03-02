@@ -311,5 +311,49 @@ namespace arm_repairs_project.Controllers
                 return RedirectToAction("Demands", "Chief");
             }
         }
+
+        [Authorize(Roles = "chief")]
+        public ActionResult DemandDelete(int id)
+        {
+            using (ApplicationDbContext db = new ApplicationDbContext())
+            {
+                var demand = db.Demands.SingleOrDefault(x => x.Id == id);
+                var model=new DemandModel();
+                if (demand != null)
+                {
+                    model.Id = demand.Id;
+                    model.Date = demand.Date;
+                }
+                return View(model);
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "chief")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DemandDelete(DemandModel model)
+        {
+            //Проверяем модель на валидность
+            if (model== null)
+            {
+                ModelState.AddModelError("", "Идентификатор заявки не определен.");
+                return View(model);
+            }
+            using (ApplicationDbContext db = new ApplicationDbContext())
+            {
+                var demand = db.Demands.SingleOrDefault(x => x.Id == model.Id);
+                //Если заявка не найдена то возвращаем ошибку
+                if (demand == null)
+                {
+                    ModelState.AddModelError("", "Заявка не найдена.");
+                    return View(model);
+                }
+                var id=demand.Id;
+                db.Demands.Remove(demand);
+                db.SaveChanges();
+                TempData["success"] = "Завка №" + id + " успешно удалена";
+                return RedirectToAction("Demands", "Chief");
+            }
+        }
     }
 }

@@ -26,7 +26,7 @@
                     <col/>
                     <col/>
                     <col/>
-                    <col class="col-width-75"/>
+                    <col class="col-width-50"/>
                 </colgroup>
                 <thead>
                 <tr>
@@ -63,11 +63,15 @@
                             <td>@demand.Status.Caption</td>
                             <td>@demand.DescriptionIssue</td>
                             <td>
-                                <a href="@Url.Action("DemandEdit","Chief",new {@id=demand.Id})" title="Редактировать"><i class="fa fa-pencil-square-o  fa-lg"></i></a>
-                                <a href="@Url.Action("UserDelete","Chief",new {@id=demand.Id})" title="Удалить заявку"><i class="fa fa-times  fa-lg" aria-hidden="true"></i></a>
+                                <a href="@Url.Action("DemandEdit", "Chief", new {@id = demand.Id})" title="Редактировать"><i class="fa fa-pencil-square-o  fa-lg"></i></a>
+                                <a href="@Url.Action("DemandDelete", "Chief", new {@id = demand.Id})" title="Удалить заявку"><i class="fa fa-times  fa-lg" aria-hidden="true"></i></a>
                             </td>
                         </tr>
                     }
+                }
+                else
+                {
+                    <tr><td colspan="8" style="text-align: center">В системе не зарегистрированно ни одной заявки</td></tr>
                 }
                 </tbody>
             </table>

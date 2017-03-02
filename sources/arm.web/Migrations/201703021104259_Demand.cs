@@ -29,7 +29,7 @@ namespace arm_repairs_project.Migrations
                 .ForeignKey("dbo.AspNetUsers", t => t.master)
                 .ForeignKey("dbo.priority", t => t.priority_id, cascadeDelete: true)
                 .ForeignKey("dbo.demand_status", t => t.status_id, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.user)
+                .ForeignKey("dbo.AspNetUsers", t => t.user, cascadeDelete: true)
                 .Index(t => t.manager)
                 .Index(t => t.master)
                 .Index(t => t.priority_id)

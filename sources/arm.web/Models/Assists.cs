@@ -12,12 +12,16 @@ namespace arm_repairs_project.Models
     {
         public static List<ApplicationUser> GetUsersInRole(string roleName)
         {
-            List<ApplicationUser> usersInRole;
+            List<ApplicationUser> usersInRole = new List<ApplicationUser>();
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
-            var role = roleManager.FindByName(roleName).Users.First();
-            using (ApplicationDbContext db = new ApplicationDbContext())
+            var role = roleManager.FindByName(roleName);
+            if (role.Users.Any())
             {
-                usersInRole = db.Users.Where(u => u.Roles.Select(r => r.RoleId).Contains(role.RoleId)).ToList();
+                var usersByRole = roleManager.FindByName(roleName).Users.First();
+                using (ApplicationDbContext db = new ApplicationDbContext())
+                {
+                    usersInRole = db.Users.Where(u => u.Roles.Select(r => r.RoleId).Contains(usersByRole.RoleId)).ToList();
+                }
             }
             return usersInRole;
         }
