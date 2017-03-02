@@ -79,11 +79,14 @@ namespace arm_repairs_project.Controllers
                 model.DecisionHours = demand.DecisionHours;
                 model.Equipment = demand.Equipment;
                 model.Date = demand.Date;
+                model.DescriptionIssue = demand.DescriptionIssue;
+                model.User = demand.User.Id;
+                model.Phone = demand.Phone;
 
                 //Если исполнитель по заявке не текущий пользователь редиректим назад
                 if (demand.Master?.Id != User.Identity.GetUserId())
                 {
-                    TempData["errors"] = "У Вас нет доступа к завке №" + demand.Id + " т.к. Вы не исполнитель";
+                    TempData["errors"] = "У Вас нет доступа к завке №" + demand.Id + ", т.к. Вы не исполнитель";
                     return RedirectToAction("Demands", "Master");
                 }
             }
@@ -91,7 +94,7 @@ namespace arm_repairs_project.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "chief, manager")]
+        [Authorize(Roles = "master")]
         [ValidateAntiForgeryToken]
         public ActionResult DemandEdit(DemandModel model)
         {
@@ -113,18 +116,12 @@ namespace arm_repairs_project.Controllers
                 demand.DecisionDescription = model.DecisionDescription;
                 demand.DecisionHours = model.DecisionHours;
                 demand.Equipment = model.Equipment;
-                demand.Manager = model.Manager != null ? db.Users.SingleOrDefault(x => x.Id == model.Manager) : null;
-                demand.Master = model.Master != null ? db.Users.SingleOrDefault(x => x.Id == model.Master) : null;
-                demand.Priority = db.Priorities.SingleOrDefault(x => x.Id == model.Priority);
                 demand.Status = db.DemandStatuses.SingleOrDefault(x => x.Id == model.Status);
-                demand.User = db.Users.SingleOrDefault(x => x.Id == model.User);
-                demand.DescriptionIssue = model.DescriptionIssue;
-                demand.Phone = model.Phone;
                 db.SaveChanges();
                 //Если статус заявки изменился отправляем пользователю письмо
                 if (oldStatus.Id != newStatus.Id) UserManager.SendEmail(demand.User.Id, "Изменение статуса заявки", "Статус Вашей заявки №" + demand.Id + " изменился с \"" + oldStatus.Caption + "\" на \"" + newStatus.Caption + "\"");
                 TempData["success"] = "Завка №" + demand.Id + " успешно изменена";
-                return RedirectToAction("Demands", "Chief");
+                return RedirectToAction("Demands", "Master");
             }
         }
     }

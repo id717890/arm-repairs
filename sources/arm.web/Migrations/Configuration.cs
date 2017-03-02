@@ -20,6 +20,7 @@ namespace arm_repairs_project.Migrations
         {
             var storeRole = new RoleStore<IdentityRole>(context);
             var managerRole = new RoleManager<IdentityRole>(storeRole);
+            #region Инициализация ролей
             if (!context.Roles.Any(r => r.Name == "chief"))
             {
                 var role = new IdentityRole { Name = "chief" };
@@ -40,7 +41,9 @@ namespace arm_repairs_project.Migrations
                 var role = new IdentityRole { Name = "user" };
                 managerRole.Create(role);
             }
+            #endregion
 
+            #region Инициализация пользователей с ролями
             var storeUser = new UserStore<ApplicationUser>(context);
             var managerUser = new UserManager<ApplicationUser>(storeUser);
             if (!context.Users.Any(u => u.UserName == "admin"))
@@ -49,12 +52,15 @@ namespace arm_repairs_project.Migrations
                 {
                     Id = "1000",
                     EmailConfirmed = true,
-                    Email = "jusupovz@gmail.com",
+                    Email = "infoarmrepairs@gmail.com",
                     UserName = "admin",
-                    Fio = "ФИО 1"
+                    Fio = "Администратор системы"
                 };
                 managerUser.Create(user, "123456");
                 managerUser.AddToRole(user.Id, "chief");
+                managerUser.AddToRole(user.Id, "manager");
+                managerUser.AddToRole(user.Id, "master");
+                managerUser.AddToRole(user.Id, "user");
             }
             if (!context.Users.Any(u => u.UserName == "manager"))
             {
@@ -64,7 +70,7 @@ namespace arm_repairs_project.Migrations
                     EmailConfirmed = true,
                     Email = "manager@gmail.com",
                     UserName = "manager",
-                    Fio = "ФИО 2"
+                    Fio = "Менеджер системы"
                 };
                 managerUser.Create(user, "123456");
                 managerUser.AddToRole(user.Id, "manager");
@@ -77,7 +83,7 @@ namespace arm_repairs_project.Migrations
                     EmailConfirmed = true,
                     Email = "master@gmail.com",
                     UserName = "master",
-                    Fio = "ФИО 3"
+                    Fio = "Мастер тестовый"
                 };
                 managerUser.Create(user, "123456");
                 managerUser.AddToRole(user.Id, "master");
@@ -90,11 +96,12 @@ namespace arm_repairs_project.Migrations
                     EmailConfirmed = true,
                     Email = "user@gmail.com",
                     UserName = "user",
-                    Fio = "ФИО 4"
+                    Fio = "Пользователь тестовый"
                 };
                 managerUser.Create(user, "123456");
                 managerUser.AddToRole(user.Id, "user");
-            }
+            } 
+            #endregion
 
             #region Инициализируем статусы заявок
             context.DemandStatuses.AddOrUpdate(
@@ -129,7 +136,7 @@ namespace arm_repairs_project.Migrations
                         Phone = "0500",
                         User = context.Users.SingleOrDefault(x => x.Id == "1003"),
                         Manager = null,
-                        Master = null,
+                        Master = context.Users.SingleOrDefault(x => x.Id == "1000"),
                         DecisionHours = 3,
                         DecisionDescription = "Описание",
                         Equipment = "Оборудование",
@@ -147,7 +154,7 @@ namespace arm_repairs_project.Migrations
                     Phone = "0500",
                     User = context.Users.SingleOrDefault(x => x.Id == "1003"),
                     Manager = null,
-                    Master = null,
+                    Master = context.Users.SingleOrDefault(x => x.Id == "1000"),
                     DecisionHours = 3,
                     DecisionDescription = "Описание 2",
                     Equipment = "Оборудование 2",
