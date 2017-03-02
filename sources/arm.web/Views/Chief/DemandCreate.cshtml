@@ -16,7 +16,7 @@
 <h2>Создание новой заявки</h2>
 <div class="row">
     <div class="col-xs-12">
-        @using (Html.BeginForm("CreateDemand", "Chief", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        @using (Html.BeginForm("DemandCreate", "Chief", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
             @Html.AntiForgeryToken()
             <hr />
@@ -35,12 +35,12 @@
                     <div class="form-group">
                         <div class="col-md-6">
                             @Html.LabelFor(m => m.Priority, new { @class = "col-md-12 control-label", @style = "text-align: left" })
-                            @Html.DropDownListFor(m => m.Priority, new SelectList(ViewBag.PriorityList, "Id", "Caption"), new { @class = "form-control" })
+                            @Html.DropDownListFor(m => m.Priority, Model.PriorityList, new { @class = "form-control" })
                             @Html.ValidationMessageFor(m => m.Priority, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-6">
                             @Html.LabelFor(m => m.Status, new { @class = "col-md-12 control-label", @style = "text-align: left" })
-                            @Html.DropDownListFor(m => m.Status, new SelectList(ViewBag.StatusList, "Id", "Caption"), new { @class = "form-control" })
+                            @Html.DropDownListFor(m => m.Status, Model.StatusList, new { @class = "form-control" })
                             @Html.ValidationMessageFor(m => m.Status, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                     <div class="form-group">
                         <div class="col-md-6">
                             @Html.LabelFor(m => m.User, new { @class = "col-md-12 control-label", @style = "text-align: left" })
-                            @Html.DropDownListFor(m => m.User, new SelectList(ViewBag.UserList, "Id", "Fio"), new { @class = "form-control" })
+                            @Html.DropDownListFor(m => m.User, Model.UserList, new { @class = "form-control" })
                             @Html.ValidationMessageFor(m => m.User, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-6">
@@ -70,12 +70,12 @@
                     <div class="form-group">
                         <div class="col-md-6">
                             @Html.LabelFor(m => m.Master, new { @class = "col-md-12 control-label", @style = "text-align: left" })
-                            @Html.DropDownListFor(m => m.Master, new SelectList(ViewBag.MasterList, "Id", "Fio"), String.Empty, new { @class = "form-control" })
+                            @Html.DropDownListFor(m => m.Master, Model.MasterList, String.Empty, new { @class = "form-control" })
                             @Html.ValidationMessageFor(m => m.Master, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-6">
                             @Html.LabelFor(m => m.Manager, new { @class = "col-md-12 control-label", @style = "text-align: left" })
-                            @Html.DropDownListFor(m => m.Manager, new SelectList(ViewBag.ManagerList, "Id", "Fio"), String.Empty, new { @class = "form-control" })
+                            @Html.DropDownListFor(m => m.Manager, Model.ManagerList, String.Empty, new { @class = "form-control" })
                             @Html.ValidationMessageFor(m => m.Manager, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -100,11 +100,12 @@
                     </div>
                 </div>
             </div>
-
-
-
-
+            <div class="form-group">
+                <div class="col-md-12">
+                    <input type="submit" value="Сохранить" class="btn btn-success" />
+                    @Html.ActionLink("Назад", "Demands", "Chief", null, new { @class = "btn btn-default" })
+                </div>
+            </div>
         }
-
     </div>
 </div>

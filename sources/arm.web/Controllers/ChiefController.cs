@@ -200,8 +200,7 @@ namespace arm_repairs_project.Controllers
             List<Demand> demands;
             using (ApplicationDbContext db = new ApplicationDbContext())
             {
-                db.Configuration.LazyLoadingEnabled = false;
-                demands = db.Demands.Include(x => x.Master).Include(x => x.Priority).Include(x => x.Status).ToList();
+                demands = db.Demands.Include(x => x.Master).Include(x => x.Priority).Include(x => x.Status).Include(x=>x.User).ToList();
             }
             var model = new Demands
             {
@@ -211,31 +210,45 @@ namespace arm_repairs_project.Controllers
         }
 
         [Authorize(Roles = "chief")]
-        public ActionResult CreateDemand()
+        public ActionResult DemandCreate()
         {
-            List<ApplicationUser> users;
-            List<Priority> priorities;
-            List<DemandStatus> statuses;
-            using (ApplicationDbContext db = new ApplicationDbContext())
-            {
-                users = db.Users.ToList();
-                priorities = db.Priorities.ToList();
-                statuses = db.DemandStatuses.ToList();
-            }
-            ViewBag.UserList = users;
-            ViewBag.PriorityList = priorities;
-            ViewBag.StatusList = statuses;
-            ViewBag.MasterList = Assists.GetUsersInRole("master");
-            ViewBag.ManagerList = Assists.GetUsersInRole("manager");
             return View(new DemandModel());
         }
 
         [HttpPost]
         [Authorize(Roles = "chief")]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateDemand(DemandModel model)
+        public ActionResult DemandCreate(DemandModel model)
         {
-            return null;
+            //Проверяем модель на валидность
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            int id;
+            using (ApplicationDbContext db = new ApplicationDbContext())
+            {
+                var newDemand = new Demand
+                {
+                    Date = DateTime.Now,
+                    DescriptionIssue = model.DescriptionIssue,
+                    Status = db.DemandStatuses.SingleOrDefault(x => x.Id == model.Status),
+                    Priority = db.Priorities.SingleOrDefault(x => x.Id == model.Priority),
+                    User = db.Users.SingleOrDefault(x => x.Id == model.User),
+                    Phone = model.Phone,
+                    Master = model.Master != null ? db.Users.SingleOrDefault(x => x.Id == model.Master) : null,
+                    Manager = model.Manager != null ? db.Users.SingleOrDefault(x => x.Id == model.Manager) : null,
+                    DecisionDescription = model.DecisionDescription,
+                    Equipment = model.Equipment,
+                    DecisionHours = model.DecisionHours
+                };
+
+                db.Demands.Add(newDemand);
+                db.SaveChanges();
+                id = newDemand.Id;
+            }
+            TempData["success"] = "Новая завка создана под номером "+id;
+            return RedirectToAction("Demands","Chief");
         }
 
     }

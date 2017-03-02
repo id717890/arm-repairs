@@ -303,7 +303,7 @@
     <Content Include="Views\Shared\_LayoutUser.cshtml" />
     <Content Include="Views\User\Demands.cshtml" />
     <Content Include="Views\Chief\Demands.cshtml" />
-    <Content Include="Views\Chief\CreateDemand.cshtml" />
+    <Content Include="Views\Chief\DemandCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
