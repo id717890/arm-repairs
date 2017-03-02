@@ -296,6 +296,8 @@ namespace arm_repairs_project.Controllers
                     ModelState.AddModelError("", "Заявка не найдена");
                     return View(model);
                 }
+                var oldStatus = demand.Status;
+                var newStatus = db.DemandStatuses.SingleOrDefault(x=>x.Id==model.Status);
                 demand.DecisionDescription = model.DecisionDescription;
                 demand.DecisionHours = model.DecisionHours;
                 demand.Equipment = model.Equipment;
@@ -307,6 +309,8 @@ namespace arm_repairs_project.Controllers
                 demand.DescriptionIssue = model.DescriptionIssue;
                 demand.Phone = model.Phone;
                 db.SaveChanges();
+                //Если статус заявки изменился отправляем пользователю письмо
+                if (oldStatus.Id != newStatus.Id) UserManager.SendEmail(demand.User.Id,"Изменение статуса заявки","Статус Вашей заявки №"+demand.Id+" изменился с \""+oldStatus.Caption+"\" на \""+newStatus.Caption+"\"");
                 TempData["success"] = "Завка №" + demand.Id + " успешно изменена";
                 return RedirectToAction("Demands", "Chief");
             }
