@@ -4,41 +4,56 @@
     Layout = "~/Views/Shared/_LayoutUser.cshtml";
 }
 
-<h2>Заявки на ремонт</h2>
+<h2>Мои заявки на ремонт</h2>
 <div class="row">
     <div class="col-xs-12">
+        <div class="form-group">
+            <a href="@Url.Action("DemandCreate", "User")" class="btn btn-lg btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Новая заявка</a>
+        </div>
+        @if (TempData["success"] != null)
+        {
+            <div class="alert alert-success">
+                <p>@TempData["success"].ToString()</p>
+            </div>
+        }
+        @if (TempData["errors"] != null)
+        {
+            <div class="alert alert-danger">
+                <p>@TempData["errors"].ToString()</p>
+            </div>
+        }
         <div class="panel panel-default">
             <table class="table table-condensed table-hover table-responsive table-striped">
                 <colgroup>
-                    <col />
-                    <col />
-                    <col />
-                    <col />
-                    <col />
-                    <col />
-                    <col class="col-width-75" />
+                    <col/>
+                    <col/>
+                    <col/>
+                    <col/>
+                    <col/>
+                    <col/>
+                    <col class="col-width-30"/>
                 </colgroup>
                 <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Дата</th>
-                        <th>Исполнитель</th>
-                        <th>Приоритет</th>
-                        <th>Статус</th>
-                        <th>Описание</th>
-                        <th></th>
-                    </tr>
+                <tr>
+                    <th>#</th>
+                    <th>Дата</th>
+                    <th>Исполнитель</th>
+                    <th>Приоритет</th>
+                    <th>Статус</th>
+                    <th>Описание</th>
+                    <th></th>
+                </tr>
                 </thead>
                 <tbody>
-                    @if (Model.DemandsList.Any())
+                @if (Model.DemandsList.Any())
+                {
+                    foreach (var demand in Model.DemandsList)
                     {
-                        foreach (var demand in Model.DemandsList)
-                        {
-                            <tr>
-                                <td>@demand.Id</td>
-                                <td title="@demand.Date.ToString("G")">@demand.Date.ToString("d")</td>
-                                <td>
-                                    @if (demand.Master != null)
+                        <tr>
+                            <td>@demand.Id</td>
+                            <td title="@demand.Date.ToString("G")">@demand.Date.ToString("d")</td>
+                            <td>
+                                @if (demand.Master != null)
                                 {
                                     @demand.Master.Fio
                                 }
@@ -50,10 +65,16 @@
                             <td>@demand.Priority.Caption</td>
                             <td>@demand.Status.Caption</td>
                             <td>@demand.DescriptionIssue</td>
-                            <td></td>
+                            <td>
+                                <a href="@Url.Action("DemandEdit", "User", new {@id = demand.Id})" t title="Просмотр"><i class="fa fa-pencil-square-o  fa-lg"></i></a>
+                            </td>
                         </tr>
-                        }
                     }
+                }
+                else
+                {
+                    <tr><td style="text-align: center" colspan="7">У Вас поке нет заявок!</td></tr>
+                }
                 </tbody>
             </table>
         </div>

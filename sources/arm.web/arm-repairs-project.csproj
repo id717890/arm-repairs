@@ -311,6 +311,8 @@
     <Content Include="Views\Master\Index.cshtml" />
     <Content Include="Views\Master\Demands.cshtml" />
     <Content Include="Views\Master\DemandEdit.cshtml" />
+    <Content Include="Views\User\DemandEdit.cshtml" />
+    <Content Include="Views\User\DemandCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
