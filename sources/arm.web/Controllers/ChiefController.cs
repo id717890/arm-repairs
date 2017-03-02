@@ -194,7 +194,7 @@ namespace arm_repairs_project.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "chief")]
+        [Authorize(Roles = "chief, manager")]
         public ActionResult Demands()
         {
             List<Demand> demands;
@@ -209,14 +209,14 @@ namespace arm_repairs_project.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "chief")]
+        [Authorize(Roles = "chief, manager")]
         public ActionResult DemandCreate()
         {
             return View(new DemandModel());
         }
 
         [HttpPost]
-        [Authorize(Roles = "chief")]
+        [Authorize(Roles = "chief, manager")]
         [ValidateAntiForgeryToken]
         public ActionResult DemandCreate(DemandModel model)
         {
@@ -251,7 +251,7 @@ namespace arm_repairs_project.Controllers
             return RedirectToAction("Demands", "Chief");
         }
 
-        [Authorize(Roles = "chief")]
+        [Authorize(Roles = "chief, manager")]
         public ActionResult DemandEdit(int id)
         {
             Demand demand;
@@ -279,7 +279,7 @@ namespace arm_repairs_project.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "chief")]
+        [Authorize(Roles = "chief, manager")]
         [ValidateAntiForgeryToken]
         public ActionResult DemandEdit(DemandModel model)
         {
@@ -316,7 +316,7 @@ namespace arm_repairs_project.Controllers
             }
         }
 
-        [Authorize(Roles = "chief")]
+        [Authorize(Roles = "chief, manager")]
         public ActionResult DemandDelete(int id)
         {
             using (ApplicationDbContext db = new ApplicationDbContext())
@@ -333,7 +333,7 @@ namespace arm_repairs_project.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "chief")]
+        [Authorize(Roles = "chief, manager")]
         [ValidateAntiForgeryToken]
         public ActionResult DemandDelete(DemandModel model)
         {

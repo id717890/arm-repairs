@@ -6,6 +6,7 @@
     <title>@ViewBag.Title - АРМ Заявки</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("styles", required: false)
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -20,8 +21,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Заявки", "Demands", "Chief")</li>
-                    <li>@Html.ActionLink("Пользователи", "Users", "Manager")</li>
+                    <li>@Html.ActionLink("Заявки", "Demands", "Master")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
