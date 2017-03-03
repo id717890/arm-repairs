@@ -88,19 +88,45 @@ namespace arm_repairs_project.Migrations
                 managerUser.Create(user, "123456");
                 managerUser.AddToRole(user.Id, "master");
             }
-            if (!context.Users.Any(u => u.UserName == "user"))
+            if (!context.Users.Any(u => u.UserName == "user1"))
             {
                 var user = new ApplicationUser
                 {
                     Id = "1003",
                     EmailConfirmed = true,
-                    Email = "user@gmail.com",
-                    UserName = "user",
-                    Fio = "Пользователь тестовый"
+                    Email = "user1@gmail.com",
+                    UserName = "user1",
+                    Fio = "Пользователь тестовый 1"
                 };
                 managerUser.Create(user, "123456");
                 managerUser.AddToRole(user.Id, "user");
-            } 
+            }
+            if (!context.Users.Any(u => u.UserName == "user2"))
+            {
+                var user = new ApplicationUser
+                {
+                    Id = "1004",
+                    EmailConfirmed = true,
+                    Email = "user2@gmail.com",
+                    UserName = "user2",
+                    Fio = "Пользователь тестовый 2"
+                };
+                managerUser.Create(user, "123456");
+                managerUser.AddToRole(user.Id, "user");
+            }
+            if (!context.Users.Any(u => u.UserName == "user3"))
+            {
+                var user = new ApplicationUser
+                {
+                    Id = "1005",
+                    EmailConfirmed = true,
+                    Email = "user3@gmail.com",
+                    UserName = "user3",
+                    Fio = "Пользователь тестовый 3"
+                };
+                managerUser.Create(user, "123456");
+                managerUser.AddToRole(user.Id, "user");
+            }
             #endregion
 
             #region Инициализируем статусы заявок
@@ -126,60 +152,28 @@ namespace arm_repairs_project.Migrations
             context.SaveChanges();
 
             #region Инициализируем заявки
-            context.Demands.AddOrUpdate(
+
+            for (int i = 1; i < 25; i++)
+            {
+                context.Demands.AddOrUpdate(
                     x => x.Id,
                     new Models.Data.Demand
                     {
-                        Id = 1,
+                        Id = i,
                         Date = DateTime.Now,
-                        DescriptionIssue = "Описание проблемы 1",
+                        DescriptionIssue = "Описание проблемы "+i,
                         Phone = "0500",
                         User = context.Users.SingleOrDefault(x => x.Id == "1003"),
                         Manager = null,
                         Master = context.Users.SingleOrDefault(x => x.Id == "1000"),
                         DecisionHours = 3,
-                        DecisionDescription = "Описание",
-                        Equipment = "Оборудование",
+                        DecisionDescription = "Описание "+i,
+                        Equipment = "Оборудование "+i,
                         Priority = context.Priorities.SingleOrDefault(x => x.Id == 1),
                         Status = context.DemandStatuses.SingleOrDefault(x => x.Id == 1)
                     }
                     );
-            context.Demands.AddOrUpdate(
-                x => x.Id,
-                new Models.Data.Demand
-                {
-                    Id = 1,
-                    Date = DateTime.Now,
-                    DescriptionIssue = "Описание проблемы 2",
-                    Phone = "0500",
-                    User = context.Users.SingleOrDefault(x => x.Id == "1003"),
-                    Manager = null,
-                    Master = context.Users.SingleOrDefault(x => x.Id == "1000"),
-                    DecisionHours = 3,
-                    DecisionDescription = "Описание 2",
-                    Equipment = "Оборудование 2",
-                    Priority = context.Priorities.SingleOrDefault(x => x.Id == 1),
-                    Status = context.DemandStatuses.SingleOrDefault(x => x.Id == 2)
-                }
-                );
-            context.Demands.AddOrUpdate(
-                x => x.Id,
-                new Models.Data.Demand
-                {
-                    Id = 1,
-                    Date = DateTime.Now,
-                    DescriptionIssue = "Описание проблемы 3",
-                    Phone = "0500",
-                    User = context.Users.SingleOrDefault(x => x.Id == "1003"),
-                    Manager = null,
-                    Master = null,
-                    DecisionHours = 3,
-                    DecisionDescription = "Описание 3",
-                    Equipment = "Оборудование 3",
-                    Priority = context.Priorities.SingleOrDefault(x => x.Id == 1),
-                    Status = context.DemandStatuses.SingleOrDefault(x => x.Id == 3)
-                }
-                ); 
+            }
             #endregion
 
 

@@ -51,7 +51,7 @@
                 <div class="panel-heading">Информация о пользователе</div>
                 <div class="panel-body">
                     <div class="form-group">
-                        <div class="col-md-6">
+                        <div class="col-md-6 hidden">
                             @Html.LabelFor(m => m.User, new { @class = "col-md-12 control-label", @style = "text-align: left" })
                             @Html.DropDownListFor(m => m.User, Model.UserList, new { @class = "form-control", @readonly="readonly" })
                             @Html.ValidationMessageFor(m => m.User, "", new { @class = "text-danger" })
