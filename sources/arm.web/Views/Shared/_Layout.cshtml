@@ -30,6 +30,14 @@
                     {
                         <li>@Html.ActionLink("Менеджер", "Index", "Manager")</li>
                     }
+                    @if (User.IsInRole("master"))
+                    {
+                        <li>@Html.ActionLink("Мастер", "Index", "Master")</li>
+                    }
+                    @if (User.IsInRole("user"))
+                    {
+                        <li>@Html.ActionLink("Пользователь", "Index", "User")</li>
+                    }
                     @*<li>@Html.ActionLink("About", "About", "Home")</li>
                         <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
                 </ul>

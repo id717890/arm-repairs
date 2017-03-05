@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using arm_repairs_project.Models.Data;
@@ -25,6 +27,8 @@ namespace arm_repairs_project.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<DemandStatus> DemandStatuses { get; set; } 
+        public DbSet<Priority> Priorities { get; set; } 
+        public DbSet<Demand> Demands { get; set; } 
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -41,6 +45,8 @@ namespace arm_repairs_project.Models
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Configurations.Add(new DemandStatusMap());
+            modelBuilder.Configurations.Add(new PriorityMap());
+            modelBuilder.Configurations.Add(new DemandMap());
         }
     }
 }
